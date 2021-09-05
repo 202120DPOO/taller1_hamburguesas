@@ -32,7 +32,7 @@ public class Combo implements Producto {
     }
 
     /**
-     * Retorna el precio del combo
+     * Retorna el precio del combo SIN IVA
      */
     public int getPrecio() {
         int precio = 0;
@@ -51,7 +51,7 @@ public class Combo implements Producto {
      */
     public String generarTextoFactura() {
         // Nombre y precio del combo
-        String texto = "Combo: " + this.nombreCombo + "\t Precio: " + this.getPrecio() + "\n";
+        String texto = utils.format.priceLine(this.getNombre(), this.getPrecio());
         // Contenido
         texto = texto + "\t Contiene:\n";
         // Ciclo por todos los productos que contiene
@@ -59,7 +59,7 @@ public class Combo implements Producto {
             texto = texto + "\t   + " + prod.getNombre() + "\n";
         }
         
-        return texto;
+        return texto + "\n";
     }
 
     /**

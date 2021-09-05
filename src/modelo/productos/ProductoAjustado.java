@@ -31,21 +31,13 @@ public class ProductoAjustado implements Producto {
         for (Ingrediente ingr : ingrAgregados) {
             precio += ingr.getCostoAdicional();
         }
-        // Resta precio de productos eliminados
-        for (Ingrediente ingr : ingrEliminados) {
-            precio -= ingr.getCostoAdicional();
-        }
-        // Evita precios negativos
-        if (precio < 0) {
-            precio = 0;
-        }
 
         return precio;
     }
 
     public String generarTextoFactura() {
         // Producto base
-        String texto = "Producto: " + this.getNombre() + "\t Precio: " + this.getPrecio() + "\n";
+        String texto = utils.format.priceLine(this.getNombre(), this.getPrecio());
         texto = texto + "\t MODIFICACIONES:\n";
         // Ingredientes agregados
         for (Ingrediente ingr : ingrAgregados) {
