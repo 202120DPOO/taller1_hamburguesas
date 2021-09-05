@@ -2,6 +2,7 @@ package modelo;
 
 import modelo.productos.Producto;
 import java.util.ArrayList;
+import java.io.*;
 
 public class Pedido {
     // ==== ATRIBUTOS ====
@@ -80,10 +81,18 @@ public class Pedido {
             texto = texto + prod.generarTextoFactura();
         }
 
+        texto += " ==== SUBTOTAL:   " + getPrecioNetoPedido() + " ====\n";
+        texto += " ==== IVA:        " + getPrecioIVAPedido() + " ====\n";
+        texto += " ==== TOTAL:      " + getPrecioTotalPedido() + " ====\n";
+
         return texto;
     }
 
-    public void guardarFactura() {
-        //TODO
+    public void guardarFactura(File archivo) throws IOException {
+        FileWriter wArchivo = new FileWriter(archivo);
+        BufferedWriter writer = new BufferedWriter(wArchivo);
+        String textoFactura = generarTextoFactura();
+        writer.write(textoFactura);
+        writer.close();
     }
 }
