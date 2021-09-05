@@ -1,6 +1,7 @@
 package modelo.productos;
 
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class Combo implements Producto {
     // ==== ATRIBUTOS ====
@@ -41,7 +42,7 @@ public class Combo implements Producto {
             precio += prod.getPrecio();
         }
         // Aplica el porcentaje de descuento
-        precio = (int)(precio * (1 - this.descuento));
+        precio = (int)Math.round(precio * (1 - this.descuento));
 
         return precio;
     }
@@ -51,7 +52,7 @@ public class Combo implements Producto {
      */
     public String generarTextoFactura() {
         // Nombre y precio del combo
-        String texto = utils.format.priceLine(this.getNombre(), this.getPrecio());
+        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio());
         // Contenido
         texto = texto + "\t Contiene:\n";
         // Ciclo por todos los productos que contiene

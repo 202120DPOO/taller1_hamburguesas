@@ -37,7 +37,7 @@ public class ProductoAjustado implements Producto {
 
     public String generarTextoFactura() {
         // Producto base
-        String texto = utils.format.priceLine(this.getNombre(), this.getPrecio());
+        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio());
         texto = texto + "\t MODIFICACIONES:\n";
         // Ingredientes agregados
         for (Ingrediente ingr : ingrAgregados) {

@@ -36,7 +36,7 @@ public class ProductoMenu implements Producto {
      * Retorna el texto que se debe incluir para facturar el producto
      */
     public String generarTextoFactura() {
-        String texto = utils.format.priceLine(this.getNombre(), this.getPrecio());
+        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio());
         return texto;
     }
 
