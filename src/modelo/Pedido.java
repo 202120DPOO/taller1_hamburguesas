@@ -2,6 +2,9 @@ package modelo;
 
 import modelo.productos.Producto;
 import java.util.ArrayList;
+
+import javax.lang.model.element.ModuleElement.ProvidesDirective;
+
 import java.io.*;
 
 public class Pedido {
@@ -70,6 +73,15 @@ public class Pedido {
         return total;
     }
 
+    private int getCalorias() {
+        int calorias = 0;
+        for (Producto prod: prods) {
+            calorias += prod.getCalorias();
+        }
+
+        return calorias;
+    }
+
     /**
      * Retorna el texto a mostrar en la factura de venta del pedido.
      */
@@ -80,7 +92,8 @@ public class Pedido {
         for (Producto prod : this.prods) {
             texto = texto + prod.generarTextoFactura();
         }
-
+        
+        texto += " ==== CALORIAS TOTALES " + getCalorias() + " ==== \n\n";
         texto += " ==== SUBTOTAL:   " + getPrecioNetoPedido() + " ====\n";
         texto += " ==== IVA:        " + getPrecioIVAPedido() + " ====\n";
         texto += " ==== TOTAL:      " + getPrecioTotalPedido() + " ====\n";
