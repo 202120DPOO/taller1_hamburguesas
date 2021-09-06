@@ -73,7 +73,7 @@ public class Pedido {
     /**
      * Retorna el texto a mostrar en la factura de venta del pedido.
      */
-    private String generarTextoFactura() {
+    public String generarTextoFactura() {
         String texto = "FACTURA DE VENTA. PEDIDO #" + this.idPedido + "\n";
         texto += "Nombre cliente: " + this.nombreCliente + "\n";
         texto += "Dirección: " + this.direccionCliente + "\n";

@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
 
 import modelo.*;
 import modelo.productos.*; 
@@ -17,10 +16,7 @@ public class Aplicacion {
 		consola.ejecutarAplicacion();
 	}
 	
-	private Restaurante rest;
-	private Pedido pedido;
-	private Producto prod;
-	private Combo comb;
+	private Restaurante rest = new Restaurante();
 	
 	public void ejecutarAplicacion() throws Exception {
 		System.out.println("Bienvenidos a la tienda de Hamburguesas!\n");
@@ -34,9 +30,9 @@ public class Aplicacion {
 				ejecutarCargaDatos(); 		
 				int opcion_seleccionada = Integer.parseInt(input("Por favor seleccione una opción"));
 				if (opcion_seleccionada == 1 && rest != null) {
-					System.out.println("Menu base: /n");
+					System.out.println("Menu base: \n");
 					mostrarMenuRest();
-					System.out.println("Combos: /n");
+					System.out.println("Combos: \n");
 					mostrarCombos();	}	
 				else if (opcion_seleccionada == 2 && rest != null) {
 					String nomb = input("Ingrese su nombre: ");
@@ -48,7 +44,7 @@ public class Aplicacion {
 					ejecutarCerrarPedido();
 				else if (opcion_seleccionada == 5 && rest != null)
 					ejecutarConsultaInfo();
-				else if (opcion_seleccionada == 5 && rest != null)
+				else if (opcion_seleccionada == 6 && rest != null)
 					continuar = false;
 				else
 				{
@@ -63,16 +59,29 @@ public class Aplicacion {
 	}
 
 	private void ejecutarConsultaInfo() {
-		System.out.println(prod.generarTextoFactura()+"/n");
+        int id = Integer.parseInt(input("ID del pedido: "));
+        Pedido pedido = rest.getPedidoById(id);
+        if (pedido == null) {
+            System.out.println("No hay ningún pedido con ese ID.");
+            return;
+        }
+        System.out.println(pedido.generarTextoFactura());
 	}
 
 	private void ejecutarCerrarPedido() throws Exception {
+        int id = rest.getPedidoEnCurso().getIdPedido();
+        System.out.println("El id del pedido es: " + id);
 		rest.cerrarYGuargarPedido();
 	}
 
 	private void ejecutarAgregarElementoAPedido() {
 		Producto pr;
-		int opc = Integer.parseInt("Seleccione 1 para combo y 2 para producto/n");
+        Pedido pedido = rest.getPedidoEnCurso();
+        if (pedido == null) {
+            System.out.println("Ninún pedido en curso");
+            return;
+        }
+		int opc = Integer.parseInt(input("Seleccione 1 para combo y 2 para producto: "));
 		if (opc == 1) {
 			mostrarCombos();
 			int op = Integer.parseInt(input("Por favor seleccione el # del combo que desea agregar: /n"));
@@ -84,10 +93,20 @@ public class Aplicacion {
 			int op = Integer.parseInt(input("Por favor seleccione el # del producto que desea agregar: /n"));
 			op = op - 1;
 			pr = rest.getMenuBase().get(op);
+            opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así: "));
+            while(opc != 2) {
+                pr = modificarProducto(pr);
+                opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así: "));
+            }
 		}
 		
 		pedido.agregarProducto(pr);
 	}
+
+    private Producto modificarProducto(Producto pr) {
+        ProductoAjustado prod = new ProductoAjustado(pr);
+        return prod;
+    }
 
 	private void ejecutarInicioPedido(String nombre, String direccion) throws Exception {
 		rest.iniciarPedido(nombre, direccion);
@@ -120,7 +139,7 @@ public class Aplicacion {
 	public void mostrarMenuRest() {
 		int i = 1;
 		for (ProductoMenu prod: rest.getMenuBase()) {
-			System.out.println(i + "Nombre:"+ prod.getNombre() + " " + prod.getPrecio());
+			System.out.println(i + " Nombre:"+ prod.getNombre() + "\t" + prod.getPrecio());
 			i+=1;
 		}
 	}
@@ -128,7 +147,7 @@ public class Aplicacion {
 	public void mostrarCombos() {
 		int i = 1;
 		for (Combo combo: rest.getCombos()) {
-			System.out.println(i + "Nombre:"+ combo.getNombre() + " " + combo.getPrecio());
+			System.out.println(i + " Nombre:"+ combo.getNombre() + "\t" + combo.getPrecio());
 			i+=1;
 		}
 	}

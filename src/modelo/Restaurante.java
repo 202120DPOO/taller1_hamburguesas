@@ -35,7 +35,7 @@ public class Restaurante {
         if (this.pedidoEnCurso == null) {
             throw new Exception("No hay ningún pedido en curso, para guargar y cerrar");
         }
-        File archivo = new File("facturas/" + "fv_" + Integer.toString(this.pedidoEnCurso.getIdPedido()));
+        File archivo = new File("facturas/" + "fv_" + Integer.toString(this.pedidoEnCurso.getIdPedido()) + ".txt");
         this.pedidoEnCurso.guardarFactura(archivo);
         pedidos.put(this.pedidoEnCurso.getIdPedido(), this.pedidoEnCurso);
         this.pedidoEnCurso = null;
@@ -113,7 +113,8 @@ public class Restaurante {
                 continue;
             }
             String[] combo = line.split(";");
-            Combo cmb = new Combo(combo[0], Integer.parseInt(combo[1].replace("%", "")));
+            Combo cmb = new Combo(combo[0],
+            Integer.parseInt(combo[1].replace("%", "")) / 100);
             for (int i = 2; i < combo.length; i++){
                 ProductoMenu itemCombo = menuBase.get(combo[i]);
                 cmb.agregarItemACombo(itemCombo);
@@ -121,6 +122,10 @@ public class Restaurante {
             combos.add(cmb);
         }
         reader.close();
+    }
+
+    public Pedido getPedidoById(int id) {
+        return pedidos.get(id);
     }
 
 }

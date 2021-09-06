@@ -1,0 +1,13 @@
+FACTURA DE VENTA. PEDIDO #1
+Nombre cliente: juan
+Dirección: 12345
+papas medianas                          5500      1045      6545      
+combo todoterreno                       36900     7011      43911     
+	 Contiene:
+	   + todoterreno
+	   + papas grandes
+	   + gaseosa
+
+ ==== SUBTOTAL:   42400 ====
+ ==== IVA:        8056 ====
+ ==== TOTAL:      50456 ====

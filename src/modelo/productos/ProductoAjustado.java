@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ProductoAjustado implements Producto {
     // ==== ATRIBUTOS ====
-    private ProductoMenu prodBase;
+    private Producto prodBase;
     private ArrayList<Ingrediente> ingrAgregados = new ArrayList<Ingrediente>();
     private ArrayList<Ingrediente> ingrEliminados = new ArrayList<Ingrediente>();
 
@@ -13,7 +13,7 @@ public class ProductoAjustado implements Producto {
      * Se asigna base a this.prodBase
      * @param base el producto base al cual se le harán modificaciones.
      */
-    public ProductoAjustado(ProductoMenu base) {
+    public ProductoAjustado(Producto base) {
         this.prodBase = base;
     }
 
