@@ -21,7 +21,7 @@ public class ProductoAjustado implements Producto {
      * Retorna el nombre del producto base, con nota '(MODIFICADO)'
      */
     public String getNombre() {
-        return this.prodBase.getNombre() + " (MODIFICADO)";
+        return this.prodBase.getNombre();
     }
 
     public int getPrecio() {
@@ -33,6 +33,14 @@ public class ProductoAjustado implements Producto {
         }
 
         return precio;
+    }
+
+    public void añadirIngrediente(Ingrediente ingr) {
+        this.ingrAgregados.add(ingr);
+    }
+
+    public void eliminarIngrediente(Ingrediente ingr) {
+        this.ingrEliminados.add(ingr);
     }
 
     public String generarTextoFactura() {

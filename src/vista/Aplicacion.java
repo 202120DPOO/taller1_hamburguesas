@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import modelo.*;
 import modelo.productos.*; 
@@ -78,7 +79,7 @@ public class Aplicacion {
 		Producto pr;
         Pedido pedido = rest.getPedidoEnCurso();
         if (pedido == null) {
-            System.out.println("Ninún pedido en curso");
+            System.out.println("Ningún pedido en curso");
             return;
         }
 		int opc = Integer.parseInt(input("Seleccione 1 para combo y 2 para producto: "));
@@ -87,24 +88,55 @@ public class Aplicacion {
 			int op = Integer.parseInt(input("Por favor seleccione el # del combo que desea agregar: /n"));
 			op = op - 1;
 			pr = rest.getCombos().get(op);
+            pedido.agregarProducto(pr);
 		}
 		else {
 			mostrarMenuRest();
-			int op = Integer.parseInt(input("Por favor seleccione el # del producto que desea agregar: /n"));
+			int op = Integer.parseInt(input("Por favor seleccione el # del producto que desea agregar:\n"));
 			op = op - 1;
 			pr = rest.getMenuBase().get(op);
             opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así: "));
+            ProductoAjustado adjProd = new ProductoAjustado(pr);
             while(opc != 2) {
-                pr = modificarProducto(pr);
+                adjProd = modificarProducto(adjProd);
                 opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así: "));
             }
+            pedido.agregarProducto(adjProd);
 		}
-		
-		pedido.agregarProducto(pr);
 	}
 
-    private Producto modificarProducto(Producto pr) {
-        ProductoAjustado prod = new ProductoAjustado(pr);
+    private ProductoAjustado modificarProducto(ProductoAjustado prod) {
+        int opcion = Integer.parseInt(input("1 para agregar ingrediente, 2 para quitar ingrediente"));
+        if (opcion == 1) {
+            return agregarIngrediente(prod);
+        } else {
+            return eliminarIngrediente(prod);
+        }
+    }
+
+    private void mostrarIngredientes() {
+        ArrayList<Ingrediente> ingrs = rest.getIngredientes();
+        int i = 1;
+        for (Ingrediente ingr : ingrs) {
+            System.out.println(i + " Nombre: " + ingr.getNombre() + "\tPrecio: " + ingr.getCostoAdicional());
+            i++;
+        }
+    }
+    private ProductoAjustado agregarIngrediente(ProductoAjustado prod) {
+        mostrarIngredientes();
+        int opcion = Integer.parseInt(input("Selecciones ingrediente a agregar: ")) - 1;
+        Ingrediente ingr = rest.getIngredientes().get(opcion);
+        prod.añadirIngrediente(ingr);
+
+        return prod;
+    }
+
+    private ProductoAjustado eliminarIngrediente(ProductoAjustado prod) {
+        mostrarIngredientes();
+        int opcion = Integer.parseInt(input("Selecciones ingrediente a eliminar: ")) - 1;
+        Ingrediente ingr = rest.getIngredientes().get(opcion);
+        prod.eliminarIngrediente(ingr);
+
         return prod;
     }
 
