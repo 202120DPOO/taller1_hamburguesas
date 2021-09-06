@@ -13,6 +13,7 @@ public class Restaurante {
     private Hashtable<String, Ingrediente> ingredientes = new Hashtable<String, Ingrediente>();
     private Hashtable<String, ProductoMenu> menuBase = new Hashtable<String, ProductoMenu>();
     private ArrayList<Combo> combos = new ArrayList<Combo>();
+    private Hashtable<String, Bebida> bebidas = new Hashtable<String, Bebida>();
 
     // ==== METODOS ====
 
@@ -57,10 +58,12 @@ public class Restaurante {
         return new ArrayList<Ingrediente>(this.ingredientes.values());
     }
 
-    public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos)
-    throws IOException {
+    public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos,
+    File archivoBebidas)
+    throws IOException, Exception {
         this.cargarIngredientes(archivoIngredientes);
         this.cargarMenu(archivoMenu);
+        this.cargarBebidas(archivoBebidas);
         this.cargarCombos(archivoCombos);
     }
 
@@ -106,7 +109,7 @@ public class Restaurante {
         reader.close();
     }
 
-    private void cargarCombos(File archivoCombos) throws IOException {
+    private void cargarCombos(File archivoCombos) throws IOException, Exception {
         FileReader archivo = new FileReader(archivoCombos);
         BufferedReader reader = new BufferedReader(archivo);
         String line = "";
@@ -118,10 +121,33 @@ public class Restaurante {
             Combo cmb = new Combo(combo[0],
             Integer.parseInt(combo[1].replace("%", "")) / 100);
             for (int i = 2; i < combo.length; i++){
-                ProductoMenu itemCombo = menuBase.get(combo[i]);
-                cmb.agregarItemACombo(itemCombo);
+                ProductoMenu itemCombo;
+                Bebida bebCombo;
+                if ( (itemCombo = menuBase.get(combo[i])) != null ) {
+                    cmb.agregarItemACombo(itemCombo);
+                } else if( (bebCombo = bebidas.get(combo[i])) != null) {
+                    cmb.agregarItemACombo(bebCombo);
+                } else {
+                    throw new Exception("Producto " + combo[i] + " no encontrado");
+                }
             }
             combos.add(cmb);
+        }
+        reader.close();
+    }
+
+    private void cargarBebidas(File archivoBebidas) throws IOException {
+        FileReader archivo = new FileReader(archivoBebidas);
+        BufferedReader reader = new BufferedReader(archivo);
+        String line = "";
+        while ((line = reader.readLine()) != null) {
+            if (line.equals("")) {
+                continue;
+            }
+            String[] bebida = line.split(";");
+            Bebida prod = new Bebida(bebida[0], Integer.parseInt(bebida[1]),
+            Integer.parseInt(bebida[2]));
+            bebidas.put(bebida[0], prod);
         }
         reader.close();
     }

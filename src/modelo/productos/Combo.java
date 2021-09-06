@@ -10,7 +10,7 @@ public class Combo implements Producto {
     private String nombreCombo;
 
     // Almacena los productos del combo
-    private ArrayList<ProductoMenu> prodsCombo = new ArrayList<ProductoMenu>();
+    private ArrayList<Producto> prodsCombo = new ArrayList<Producto>();
 
     // ==== METODOS ====
 
@@ -28,7 +28,7 @@ public class Combo implements Producto {
      * Agrega un producto al combo
      * @param itemCombo producto a agregar
      */
-    public void agregarItemACombo(ProductoMenu itemCombo) {
+    public void agregarItemACombo(Producto itemCombo) {
         this.prodsCombo.add(itemCombo);
     }
 
@@ -56,7 +56,7 @@ public class Combo implements Producto {
         // Contenido
         texto = texto + "\t Contiene:\n";
         // Ciclo por todos los productos que contiene
-        for (ProductoMenu prod : prodsCombo) {
+        for (Producto prod : prodsCombo) {
             texto = texto + "\t   + " + prod.getNombre() + "\n";
         }
         
@@ -72,7 +72,7 @@ public class Combo implements Producto {
 
     public int getCalorias() {
         int caloras = 0;
-        for (ProductoMenu prod : prodsCombo) {
+        for (Producto prod : prodsCombo) {
             caloras += prod.getCalorias();
         }
 

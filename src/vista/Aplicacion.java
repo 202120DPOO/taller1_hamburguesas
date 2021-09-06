@@ -145,10 +145,11 @@ public class Aplicacion {
 		
 	}
 
-	private void ejecutarCargaDatos() {
+	private void ejecutarCargaDatos() throws Exception {
 		try
 		{
-			rest.cargarInformacionRestaurante(new File("data/ingredientes.txt"), new File("data/menu.txt"), new File("data/combos.txt"));
+			rest.cargarInformacionRestaurante(new File("data/ingredientes.txt"), new File("data/menu.txt"),
+			new File("data/combos.txt"), new File("data/bebidas.txt"));
 		}
 		catch (IOException e)
 		{
