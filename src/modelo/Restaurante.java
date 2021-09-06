@@ -109,7 +109,7 @@ public class Restaurante {
                 continue;
             }
             String[] combo = line.split(";");
-            Combo cmb = new Combo(combo[0], Integer.parseInt(combo[1]));
+            Combo cmb = new Combo(combo[0], Integer.parseInt(combo[1].replace("%", "")));
             for (int i = 2; i < combo.length; i++){
                 ProductoMenu itemCombo = menuBase.get(combo[i]);
                 cmb.agregarItemACombo(itemCombo);
