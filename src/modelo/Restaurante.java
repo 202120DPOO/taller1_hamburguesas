@@ -128,6 +128,7 @@ public class Restaurante {
                 } else if( (bebCombo = bebidas.get(combo[i])) != null) {
                     cmb.agregarItemACombo(bebCombo);
                 } else {
+                    reader.close();
                     throw new Exception("Producto " + combo[i] + " no encontrado");
                 }
             }
