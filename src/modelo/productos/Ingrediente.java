@@ -4,6 +4,7 @@ public class Ingrediente {
     // ==== ATRIBUTOS ====
     private String nombre;
     private int costoAdicional;
+    private int calorias;
     
     // ==== METODOS ====
     /**
@@ -11,9 +12,10 @@ public class Ingrediente {
      * @param pNombre nombre del ingrediente
      * @param pCostoAdicional costo adicional del ingrediente
      */
-    public Ingrediente(String pNombre, int pCostoAdicional) {
+    public Ingrediente(String pNombre, int pCostoAdicional, int calorias) {
         this.nombre = pNombre;
         this.costoAdicional = pCostoAdicional;
+        this.calorias = calorias;
     }
 
     /**
@@ -28,5 +30,9 @@ public class Ingrediente {
      */
     public int getCostoAdicional() {
         return this.costoAdicional;
+    }
+
+    public int getCalorias() {
+        return this.calorias;
     }
 }

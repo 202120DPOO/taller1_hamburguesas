@@ -58,4 +58,20 @@ public class ProductoAjustado implements Producto {
 
         return texto;
     }
+
+    public int getCalorias() {
+        //Producto base
+        int calorias = prodBase.getCalorias();
+        for (Ingrediente ingr : ingrAgregados) {
+            calorias += ingr.getCalorias();
+        }
+        for (Ingrediente ingr : ingrEliminados) {
+            calorias -= ingr.getCalorias();
+        }
+        if (calorias < 0) {
+            calorias = 0;
+        }
+
+        return calorias;
+    }
 }

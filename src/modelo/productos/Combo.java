@@ -69,4 +69,13 @@ public class Combo implements Producto {
     public String getNombre() {
         return this.nombreCombo;
     }
+
+    public int getCalorias() {
+        int caloras = 0;
+        for (ProductoMenu prod : prodsCombo) {
+            caloras += prod.getCalorias();
+        }
+
+        return caloras;
+    }
 }

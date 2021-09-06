@@ -78,7 +78,8 @@ public class Restaurante {
                 continue;
             }
             String[] ingrediente = line.split(";");
-            Ingrediente ingr = new Ingrediente(ingrediente[0], Integer.parseInt(ingrediente[1]));
+            Ingrediente ingr = new Ingrediente(ingrediente[0], Integer.parseInt(ingrediente[1]),
+            Integer.parseInt(ingrediente[2]));
             this.ingredientes.put(ingrediente[0], ingr);
         }
         reader.close();
@@ -98,7 +99,8 @@ public class Restaurante {
                 continue;
             }
             String[] producto = line.split(";");
-            ProductoMenu prod = new ProductoMenu(producto[0], Integer.parseInt(producto[1]));
+            ProductoMenu prod = new ProductoMenu(producto[0], Integer.parseInt(producto[1]),
+            Integer.parseInt(producto[2]));
             menuBase.put(producto[0], prod);
         }
         reader.close();
