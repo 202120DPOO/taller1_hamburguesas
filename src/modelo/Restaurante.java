@@ -48,6 +48,10 @@ public class Restaurante {
     public ArrayList<ProductoMenu> getMenuBase() {
         return new ArrayList<ProductoMenu>(this.menuBase.values());
     }
+    
+    public ArrayList<Combo> getCombos(){
+    	return this.combos;
+    }
 
     public ArrayList<Ingrediente> getIngredientes() {
         return new ArrayList<Ingrediente>(this.ingredientes.values());
