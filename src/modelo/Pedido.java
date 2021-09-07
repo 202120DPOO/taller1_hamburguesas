@@ -1,6 +1,8 @@
 package modelo;
 
 import modelo.productos.Producto;
+import modelo.utils.format;
+
 import java.util.ArrayList;
 
 import java.io.*;
@@ -87,11 +89,12 @@ public class Pedido {
         String texto = "FACTURA DE VENTA. PEDIDO #" + this.idPedido + "\n";
         texto += "Nombre cliente: " + this.nombreCliente + "\n";
         texto += "Dirección: " + this.direccionCliente + "\n";
+        texto += format.formatPriceLine("Nombre", "Subtotal", "IVA", "Total", "Calorias");
         for (Producto prod : this.prods) {
             texto = texto + prod.generarTextoFactura();
         }
         
-        texto += " ==== CALORIAS TOTALES " + getCalorias() + " ==== \n\n";
+        texto += "\n ==== CALORIAS TOTALES " + getCalorias() + " ==== \n\n";
         texto += " ==== SUBTOTAL:   " + getPrecioNetoPedido() + " ====\n";
         texto += " ==== IVA:        " + getPrecioIVAPedido() + " ====\n";
         texto += " ==== TOTAL:      " + getPrecioTotalPedido() + " ====\n";

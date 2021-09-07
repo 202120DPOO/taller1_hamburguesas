@@ -1,0 +1,13 @@
+FACTURA DE VENTA. PEDIDO #1
+Nombre cliente: 2
+Dirección: 2
+Nombre                        Subtotal  IVA       Total     Calorias  
+costeña                       21000     3990      24990     75        
+	 MODIFICACIONES:
+		+lechuga
+		-tocineta picada
+ ==== CALORIAS TOTALES 75 ==== 
+
+ ==== SUBTOTAL:   21000 ====
+ ==== IVA:        3990 ====
+ ==== TOTAL:      24990 ====

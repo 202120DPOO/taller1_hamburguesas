@@ -52,7 +52,7 @@ public class Combo implements Producto {
      */
     public String generarTextoFactura() {
         // Nombre y precio del combo
-        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio());
+        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio(), this.getCalorias());
         // Contenido
         texto = texto + "\t Contiene:\n";
         // Ciclo por todos los productos que contiene

@@ -1,0 +1,19 @@
+FACTURA DE VENTA. PEDIDO #2
+Nombre cliente: 12
+Dirección: 12
+Nombre                        Subtotal  IVA       Total     Calorias  
+combo todoterreno             36900     7011      43911     850       
+	 Contiene:
+	   + todoterreno
+	   + papas grandes
+	   + gaseosa
+
+costeña                       22500     4275      26775     575       
+	 MODIFICACIONES:
+		+tocineta express
+		-lechuga
+ ==== CALORIAS TOTALES 1425 ==== 
+
+ ==== SUBTOTAL:   59400 ====
+ ==== IVA:        11286 ====
+ ==== TOTAL:      70686 ====

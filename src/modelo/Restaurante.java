@@ -11,9 +11,9 @@ public class Restaurante {
     private Hashtable<Integer, Pedido> pedidos = new Hashtable<Integer, Pedido>();
     private Pedido pedidoEnCurso;
     private Hashtable<String, Ingrediente> ingredientes = new Hashtable<String, Ingrediente>();
-    private Hashtable<String, ProductoMenu> menuBase = new Hashtable<String, ProductoMenu>();
-    private ArrayList<Combo> combos = new ArrayList<Combo>();
+    private Hashtable<String, noBebida> noBebidas = new Hashtable<String, noBebida>();
     private Hashtable<String, Bebida> bebidas = new Hashtable<String, Bebida>();
+    private ArrayList<Combo> combos = new ArrayList<Combo>();
 
     // ==== METODOS ====
 
@@ -46,8 +46,8 @@ public class Restaurante {
         return this.pedidoEnCurso;
     }
 
-    public ArrayList<ProductoMenu> getMenuBase() {
-        return new ArrayList<ProductoMenu>(this.menuBase.values());
+    public ArrayList<noBebida> getNoBebidas() {
+        return new ArrayList<noBebida>(this.noBebidas.values());
     }
     
     public ArrayList<Combo> getCombos(){
@@ -58,11 +58,15 @@ public class Restaurante {
         return new ArrayList<Ingrediente>(this.ingredientes.values());
     }
 
-    public void cargarInformacionRestaurante(File archivoIngredientes, File archivoMenu, File archivoCombos,
+    public ArrayList<Bebida> getBebidas() {
+        return new ArrayList<Bebida>(this.bebidas.values());
+    }
+
+    public void cargarInformacionRestaurante(File archivoIngredientes, File archivoNoBebidas, File archivoCombos,
     File archivoBebidas)
     throws IOException, Exception {
         this.cargarIngredientes(archivoIngredientes);
-        this.cargarMenu(archivoMenu);
+        this.cargarNoBebidas(archivoNoBebidas);
         this.cargarBebidas(archivoBebidas);
         this.cargarCombos(archivoCombos);
     }
@@ -93,8 +97,8 @@ public class Restaurante {
      * @param archivoMenu archivo con productos del menú
      * @throws IOException
      */
-    private void cargarMenu(File archivoMenu) throws IOException {
-        FileReader archivo = new FileReader(archivoMenu);
+    private void cargarNoBebidas(File archivoNoBebidas) throws IOException {
+        FileReader archivo = new FileReader(archivoNoBebidas);
         BufferedReader reader = new BufferedReader(archivo);
         String line = "";
         while ((line = reader.readLine()) != null) {
@@ -102,9 +106,9 @@ public class Restaurante {
                 continue;
             }
             String[] producto = line.split(";");
-            ProductoMenu prod = new ProductoMenu(producto[0], Integer.parseInt(producto[1]),
+            noBebida prod = new noBebida(producto[0], Integer.parseInt(producto[1]),
             Integer.parseInt(producto[2]));
-            menuBase.put(producto[0], prod);
+            noBebidas.put(producto[0], prod);
         }
         reader.close();
     }
@@ -120,13 +124,11 @@ public class Restaurante {
             String[] combo = line.split(";");
             Combo cmb = new Combo(combo[0],
             Integer.parseInt(combo[1].replace("%", "")) / 100);
+            Hashtable<String, ProductoMenu> menuBase = this.getProductosMenuHashTB();
             for (int i = 2; i < combo.length; i++){
                 ProductoMenu itemCombo;
-                Bebida bebCombo;
                 if ( (itemCombo = menuBase.get(combo[i])) != null ) {
                     cmb.agregarItemACombo(itemCombo);
-                } else if( (bebCombo = bebidas.get(combo[i])) != null) {
-                    cmb.agregarItemACombo(bebCombo);
                 } else {
                     reader.close();
                     throw new Exception("Producto " + combo[i] + " no encontrado");
@@ -136,6 +138,7 @@ public class Restaurante {
         }
         reader.close();
     }
+
 
     private void cargarBebidas(File archivoBebidas) throws IOException {
         FileReader archivo = new FileReader(archivoBebidas);
@@ -152,6 +155,19 @@ public class Restaurante {
         }
         reader.close();
     }
+
+
+    private Hashtable<String, ProductoMenu> getProductosMenuHashTB() {
+        Hashtable<String, ProductoMenu> prods = new Hashtable<String, ProductoMenu>(this.noBebidas);
+        prods.putAll(this.bebidas);
+        return prods;
+    }
+
+
+    public ArrayList<ProductoMenu> getProductosMenu() {
+        return new ArrayList<ProductoMenu>(this.getProductosMenuHashTB().values());
+    }
+
 
     public Pedido getPedidoById(int id) {
         return pedidos.get(id);

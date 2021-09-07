@@ -11,6 +11,10 @@ import modelo.productos.*;
 
 public class Aplicacion {
 
+	public void ec() {
+		input("\nENTER para continuar");
+	}
+
 	public static void main(String[] args) throws Exception
 	{
 		Aplicacion consola = new Aplicacion();
@@ -31,22 +35,44 @@ public class Aplicacion {
 				ejecutarCargaDatos(); 		
 				int opcion_seleccionada = Integer.parseInt(input("Por favor seleccione una opción"));
 				if (opcion_seleccionada == 1 && rest != null) {
-					System.out.println("Menu base: \n");
-					mostrarMenuRest();
-					System.out.println("Combos: \n");
-					mostrarCombos();	}	
+					System.out.println("Menu base:");
+					mostrarMenuBase();
+					System.out.println("\n Combos:");
+					mostrarCombos();
+					ec();
+				}	
 				else if (opcion_seleccionada == 2 && rest != null) {
-					String nomb = input("Ingrese su nombre: ");
-					String direc = input("Ingrese su direccion: ");
-					ejecutarInicioPedido(nomb,direc);		}
-				else if (opcion_seleccionada == 3 && rest != null)
+					if (rest.getPedidoEnCurso() != null) {
+						System.out.println("Ya hau un pedido en curso. Cierrelo y guardelo para iniciar uno nuevo.");
+						ec();
+						continue;
+					}
+					String nomb = input("Ingrese su nombre");
+					String direc = input("Ingrese su direccion");
+					ejecutarInicioPedido(nomb,direc);
+					System.out.println("Pedido creado. Id: " + rest.getPedidoEnCurso().getIdPedido());
+					ec();
+				}
+				else if (opcion_seleccionada == 3 && rest != null) {
 					ejecutarAgregarElementoAPedido();
-				else if (opcion_seleccionada == 4 && rest != null)
+					ec();
+				}
+				else if (opcion_seleccionada == 4 && rest != null) {
+					if (rest.getPedidoEnCurso() == null) {
+						System.out.println("No hau ningún pedido en curso");
+						ec();
+						continue;
+					}
 					ejecutarCerrarPedido();
-				else if (opcion_seleccionada == 5 && rest != null)
+					ec();
+				}
+				else if (opcion_seleccionada == 5 && rest != null) {
 					ejecutarConsultaInfo();
-				else if (opcion_seleccionada == 6 && rest != null)
+					ec();
+				}
+				else if (opcion_seleccionada == 6 && rest != null) {
 					continuar = false;
+				}
 				else
 				{
 					System.out.println("Por favor seleccione una opción válida.");
@@ -60,7 +86,7 @@ public class Aplicacion {
 	}
 
 	private void ejecutarConsultaInfo() {
-        int id = Integer.parseInt(input("ID del pedido: "));
+        int id = Integer.parseInt(input("ID del pedido"));
         Pedido pedido = rest.getPedidoById(id);
         if (pedido == null) {
             System.out.println("No hay ningún pedido con ese ID.");
@@ -82,27 +108,43 @@ public class Aplicacion {
             System.out.println("Ningún pedido en curso");
             return;
         }
-		int opc = Integer.parseInt(input("Seleccione 1 para combo y 2 para producto: "));
+		int opc = Integer.parseInt(input("Seleccione 1 para combo, 2 para producto, 3 para bebidas"));
 		if (opc == 1) {
 			mostrarCombos();
-			int op = Integer.parseInt(input("Por favor seleccione el # del combo que desea agregar: /n"));
+			int op = Integer.parseInt(input("Por favor seleccione el # del combo que desea agregar"));
 			op = op - 1;
 			pr = rest.getCombos().get(op);
             pedido.agregarProducto(pr);
 		}
-		else {
-			mostrarMenuRest();
-			int op = Integer.parseInt(input("Por favor seleccione el # del producto que desea agregar:\n"));
+		else if (opc == 2) {
+			mostrarNoBebidas();
+			int op = Integer.parseInt(input("Por favor seleccione el # del producto que desea agregar"));
 			op = op - 1;
-			pr = rest.getMenuBase().get(op);
-            opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así: "));
+			pr = rest.getNoBebidas().get(op);
+            opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
             ProductoAjustado adjProd = new ProductoAjustado(pr);
             while(opc != 2) {
                 adjProd = modificarProducto(adjProd);
-                opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así: "));
+                opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
             }
             pedido.agregarProducto(adjProd);
+		} else if (opc == 3) {
+			mostrarBebidas();
+			int op = Integer.parseInt(input("Por favor seleccione el # del bebida que desea agregar"));
+			op = op - 1;
+			pr = rest.getBebidas().get(op);
+            opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
+            ProductoAjustado adjProd = new ProductoAjustado(pr);
+            while(opc != 2) {
+                adjProd = modificarProducto(adjProd);
+                opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
+            }
+            pedido.agregarProducto(adjProd);
+		} else {
+			System.out.println("Seleccione una opción valida");
+			return;
 		}
+		System.out.println("Producto agregado.");
 	}
 
     private ProductoAjustado modificarProducto(ProductoAjustado prod) {
@@ -115,6 +157,7 @@ public class Aplicacion {
     }
 
     private void mostrarIngredientes() {
+		System.out.println("\nIngredientes:");
         ArrayList<Ingrediente> ingrs = rest.getIngredientes();
         int i = 1;
         for (Ingrediente ingr : ingrs) {
@@ -124,7 +167,7 @@ public class Aplicacion {
     }
     private ProductoAjustado agregarIngrediente(ProductoAjustado prod) {
         mostrarIngredientes();
-        int opcion = Integer.parseInt(input("Selecciones ingrediente a agregar: ")) - 1;
+        int opcion = Integer.parseInt(input("Selecciones ingrediente a agregar ")) - 1;
         Ingrediente ingr = rest.getIngredientes().get(opcion);
         prod.añadirIngrediente(ingr);
 
@@ -133,7 +176,7 @@ public class Aplicacion {
 
     private ProductoAjustado eliminarIngrediente(ProductoAjustado prod) {
         mostrarIngredientes();
-        int opcion = Integer.parseInt(input("Selecciones ingrediente a eliminar: ")) - 1;
+        int opcion = Integer.parseInt(input("Selecciones ingrediente a eliminar ")) - 1;
         Ingrediente ingr = rest.getIngredientes().get(opcion);
         prod.eliminarIngrediente(ingr);
 
@@ -141,6 +184,10 @@ public class Aplicacion {
     }
 
 	private void ejecutarInicioPedido(String nombre, String direccion) throws Exception {
+		if (rest.getPedidoEnCurso() != null) {
+			System.out.println("Ya hau un pedido en curso. Cierrelo y guardelo para iniciar uno nuevo.");
+			return;
+		}
 		rest.iniciarPedido(nombre, direccion);
 		
 	}
@@ -169,11 +216,26 @@ public class Aplicacion {
 		System.out.println("6. Salir de la aplicación\n");
 	}
 	
-	public void mostrarMenuRest() {
+	public void mostrarMenuBase() {
+		mostrarNoBebidas();
+		mostrarBebidas();
+	}
+
+	public void mostrarNoBebidas() {
+		System.out.println("\n Platos:");
 		int i = 1;
-		for (ProductoMenu prod: rest.getMenuBase()) {
-			System.out.println(i + " Nombre:"+ prod.getNombre() + "\t" + prod.getPrecio());
-			i+=1;
+		for (noBebida noBeb : rest.getNoBebidas()) {
+			System.out.println(i + " Nombre: " + noBeb.getNombre() + "\t" + noBeb.getPrecio());
+			i++;
+		}
+	}
+
+	public void mostrarBebidas() {
+		System.out.println("\n Bebidas:");
+		int i = 1;
+		for (Bebida Beb : rest.getBebidas()) {
+			System.out.println(i + " Nombre: " + Beb.getNombre() + "\t" + Beb.getPrecio());
+			i++;
 		}
 	}
 	

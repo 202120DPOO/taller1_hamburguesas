@@ -4,34 +4,46 @@ import java.lang.Math;
 
 public class format {
 
-    public static String priceLine(String nombre, int subtotal) {
+    public static String priceLine(String nombre, int subtotal, int calorias) {
         long IVA = Math.round(subtotal * 0.19);
         long total = subtotal + IVA;
 
         String subtotalStr = Integer.toString(subtotal);
         String totalStr = Long.toString(total);
         String IVAStr = Long.toString(IVA);
+        String caloriasStr = Integer.toString(calorias);
         
-        if (nombre.length() > 38) {
-            nombre = nombre.substring(0, 34) + "...";
+        String texto = formatPriceLine(nombre, subtotalStr, IVAStr, totalStr, caloriasStr);
+
+        return texto;
+    }
+
+    public static String formatPriceLine(String nombre, String subtotal, String IVA, String total,
+    String calorias) {
+        if (nombre.length() > 28) {
+            nombre = nombre.substring(0, 24) + "...";
         }
-        while(nombre.length() < 40) {
+        while(nombre.length() < 30) {
             nombre = nombre + " ";
         }
 
-        while(subtotalStr.length() < 10) {
-            subtotalStr = subtotalStr + " ";
+        while(subtotal.length() < 10) {
+            subtotal = subtotal + " ";
         }
 
-        while(IVAStr.length() < 10) {
-            IVAStr = IVAStr + " ";
+        while(IVA.length() < 10) {
+            IVA = IVA + " ";
         }
 
-        while(totalStr.length() < 10) {
-            totalStr = totalStr + " ";
+        while(total.length() < 10) {
+            total = total + " ";
         }
 
-        String texto = nombre + subtotalStr + IVAStr + totalStr + "\n";
+        while(calorias.length() < 10) {
+            calorias = calorias + " ";
+        }
+
+        String texto = nombre + subtotal + IVA + total + calorias + "\n";
 
         return texto;
     }

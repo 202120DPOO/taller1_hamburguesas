@@ -1,11 +1,11 @@
 package modelo.productos;
 
-public class ProductoMenu implements Producto {
+public abstract class ProductoMenu implements Producto {
     // ==== ATRIBUTOS ====
 
-    private String nombre;
-    private int precioBase;
-    private int calorias;
+    protected String nombre;
+    protected int precioBase;
+    protected int calorias;
 
     // ==== METODOS ====
 
@@ -38,7 +38,7 @@ public class ProductoMenu implements Producto {
      * Retorna el texto que se debe incluir para facturar el producto
      */
     public String generarTextoFactura() {
-        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio());
+        String texto = modelo.utils.format.priceLine(this.getNombre(), this.getPrecio(), this.getCalorias());
         return texto;
     }
 
