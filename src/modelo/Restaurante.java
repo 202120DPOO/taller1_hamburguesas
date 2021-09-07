@@ -32,14 +32,22 @@ public class Restaurante {
         this.pedidoEnCurso = order;
     }
 
-    public void cerrarYGuargarPedido() throws Exception {
+    public int cerrarYGuargarPedido() throws Exception {
+        int identical = -1;
         if (this.pedidoEnCurso == null) {
             throw new Exception("No hay ningún pedido en curso, para guargar y cerrar");
         }
         File archivo = new File("facturas/" + "fv_" + Integer.toString(this.pedidoEnCurso.getIdPedido()) + ".txt");
         this.pedidoEnCurso.guardarFactura(archivo);
+        for (Pedido ped : pedidos.values()) {
+            if (ped.equals(this.pedidoEnCurso)) {
+                identical = ped.getIdPedido();
+                break;
+            }
+        }
         pedidos.put(this.pedidoEnCurso.getIdPedido(), this.pedidoEnCurso);
         this.pedidoEnCurso = null;
+        return identical;
     }
 
     public Pedido getPedidoEnCurso() {

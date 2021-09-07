@@ -2,12 +2,12 @@ FACTURA DE VENTA. PEDIDO #1
 Nombre cliente: 2
 Dirección: 2
 Nombre                        Subtotal  IVA       Total     Calorias  
-costeña                       21000     3990      24990     75        
+wrap de lomo                  24500     4655      29155     500       
 	 MODIFICACIONES:
-		+lechuga
-		-tocineta picada
- ==== CALORIAS TOTALES 75 ==== 
+		+tocineta express
 
- ==== SUBTOTAL:   21000 ====
- ==== IVA:        3990 ====
- ==== TOTAL:      24990 ====
+ ==== CALORIAS TOTALES 500 ==== 
+
+ ==== SUBTOTAL:   24500 ====
+ ==== IVA:        4655 ====
+ ==== TOTAL:      29155 ====

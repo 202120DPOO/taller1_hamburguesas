@@ -59,6 +59,10 @@ public class ProductoAjustado implements Producto {
         return texto;
     }
 
+    public Producto getProductoBase() {
+        return this.prodBase;
+    }
+
     public int getCalorias() {
         //Producto base
         int calorias = prodBase.getCalorias();
@@ -73,5 +77,36 @@ public class ProductoAjustado implements Producto {
         }
 
         return calorias;
+    }
+
+    public ArrayList<Ingrediente> getAddedIngredients() {
+        return this.ingrAgregados;
+    }
+
+    public ArrayList<Ingrediente> getDelIngredients() {
+        return this.ingrEliminados;
+    }
+
+    public boolean equals(ProductoAjustado prod2) {
+        if(!(this.getNombre().equals(getNombre()))) {
+            return false;
+        }
+        if (this.ingrAgregados.size() != prod2.ingrAgregados.size()) {
+            return false;
+        }
+        if (this.ingrEliminados.size() != prod2.ingrEliminados.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.getAddedIngredients().size(); i++) {
+            if (!(this.getAddedIngredients().get(i).equals(prod2.getAddedIngredients().get(i)))) {
+                return false;
+            }
+        }
+        for (int i = 0; i < this.getDelIngredients().size(); i++) {
+            if (!(this.getDelIngredients().get(i).equals(prod2.getDelIngredients().get(i)))) {
+                return false;
+            }
+        }
+        return true;
     }
 }

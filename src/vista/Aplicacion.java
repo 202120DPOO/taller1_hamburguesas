@@ -98,11 +98,14 @@ public class Aplicacion {
 	private void ejecutarCerrarPedido() throws Exception {
         int id = rest.getPedidoEnCurso().getIdPedido();
         System.out.println("El id del pedido es: " + id);
-		rest.cerrarYGuargarPedido();
+		int identical = rest.cerrarYGuargarPedido();
+		if (identical > 0) {
+			System.out.println("El pedido con id " + identical + " es identico al pedido que está cerrando en" + 
+			" este momento.");
+		}
 	}
 
 	private void ejecutarAgregarElementoAPedido() {
-		Producto pr;
         Pedido pedido = rest.getPedidoEnCurso();
         if (pedido == null) {
             System.out.println("Ningún pedido en curso");
@@ -113,33 +116,33 @@ public class Aplicacion {
 			mostrarCombos();
 			int op = Integer.parseInt(input("Por favor seleccione el # del combo que desea agregar"));
 			op = op - 1;
-			pr = rest.getCombos().get(op);
-            pedido.agregarProducto(pr);
+			Combo pr = rest.getCombos().get(op);
+            pedido.agregarCombo(pr);
 		}
 		else if (opc == 2) {
 			mostrarNoBebidas();
 			int op = Integer.parseInt(input("Por favor seleccione el # del producto que desea agregar"));
 			op = op - 1;
-			pr = rest.getNoBebidas().get(op);
+			ProductoMenu pr = rest.getNoBebidas().get(op);
             opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
             ProductoAjustado adjProd = new ProductoAjustado(pr);
             while(opc != 2) {
                 adjProd = modificarProducto(adjProd);
                 opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
             }
-            pedido.agregarProducto(adjProd);
+            pedido.agregarAjustado(adjProd);
 		} else if (opc == 3) {
 			mostrarBebidas();
 			int op = Integer.parseInt(input("Por favor seleccione el # del bebida que desea agregar"));
 			op = op - 1;
-			pr = rest.getBebidas().get(op);
+			ProductoMenu pr = rest.getBebidas().get(op);
             opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
             ProductoAjustado adjProd = new ProductoAjustado(pr);
             while(opc != 2) {
                 adjProd = modificarProducto(adjProd);
                 opc = Integer.parseInt(input("1 para modificar producto, 2 para añadirlo así"));
             }
-            pedido.agregarProducto(adjProd);
+            pedido.agregarAjustado(adjProd);
 		} else {
 			System.out.println("Seleccione una opción valida");
 			return;

@@ -35,4 +35,12 @@ public class Ingrediente {
     public int getCalorias() {
         return this.calorias;
     }
+
+    public boolean equals(Ingrediente ingr2) {
+        if (this.getNombre().equals(getNombre())) {
+            return true;
+        }
+
+        return false;
+    }
 }

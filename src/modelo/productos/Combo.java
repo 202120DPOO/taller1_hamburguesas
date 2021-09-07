@@ -78,4 +78,11 @@ public class Combo implements Producto {
 
         return caloras;
     }
+
+    public boolean equals(Combo prod2) {
+        if (!(this.getNombre().equals(prod2.getNombre()))) {
+            return false;
+        }
+        return true;
+    }
 }

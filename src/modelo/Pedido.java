@@ -1,6 +1,6 @@
 package modelo;
 
-import modelo.productos.Producto;
+import modelo.productos.*;
 import modelo.utils.format;
 
 import java.util.ArrayList;
@@ -14,7 +14,9 @@ public class Pedido {
     private int idPedido;
     private String nombreCliente;
     private String direccionCliente;
-    private ArrayList<Producto> prods = new ArrayList<Producto>();
+    private ArrayList<ProductoMenu> prodsBase = new ArrayList<ProductoMenu>();
+    private ArrayList<Combo> combos = new ArrayList<Combo>();
+    private ArrayList<ProductoAjustado> adjProds = new ArrayList<ProductoAjustado>();
 
     // ==== METODOS ====
     /**
@@ -37,12 +39,24 @@ public class Pedido {
         return this.idPedido;
     }
 
-    /**
-     * Agrega un producto al pedido.
-     * @param prod producto a agregar.
-     */
-    public void agregarProducto(Producto prod) {
-        this.prods.add(prod);
+    public void agregarBase(ProductoMenu base) {
+        this.prodsBase.add(base);
+    }
+
+    public void agregarCombo(Combo comb) {
+        this.combos.add(comb);
+    }
+
+    public void agregarAjustado(ProductoAjustado adjProd) {
+        this.adjProds.add(adjProd);
+    }
+
+    private ArrayList<Producto> getProds() {
+        ArrayList<Producto> prods = new ArrayList<Producto>(this.prodsBase);
+        prods.addAll(this.combos);
+        prods.addAll(this.adjProds);
+
+        return prods;
     }
     
     /**
@@ -50,7 +64,7 @@ public class Pedido {
      */
     private int getPrecioNetoPedido() {
         int subtotal = 0;
-        for (Producto prod : this.prods) {
+        for (Producto prod : this.getProds()) {
             subtotal += prod.getPrecio();
         }
 
@@ -75,7 +89,7 @@ public class Pedido {
 
     private int getCalorias() {
         int calorias = 0;
-        for (Producto prod: prods) {
+        for (Producto prod: getProds()) {
             calorias += prod.getCalorias();
         }
 
@@ -90,7 +104,7 @@ public class Pedido {
         texto += "Nombre cliente: " + this.nombreCliente + "\n";
         texto += "Dirección: " + this.direccionCliente + "\n";
         texto += format.formatPriceLine("Nombre", "Subtotal", "IVA", "Total", "Calorias");
-        for (Producto prod : this.prods) {
+        for (Producto prod : this.getProds()) {
             texto = texto + prod.generarTextoFactura();
         }
         
@@ -108,5 +122,40 @@ public class Pedido {
         String textoFactura = generarTextoFactura();
         writer.write(textoFactura);
         writer.close();
+    }
+
+    public boolean equals(Pedido ped2) {
+        if (!(this.nombreCliente.equals(ped2.nombreCliente))) {
+            return false;
+        }
+        if (!(this.direccionCliente.equals(ped2.direccionCliente))) {
+            return false;
+        }
+        if (this.prodsBase.size() != ped2.prodsBase.size()) {
+            return false;
+        }
+        if (this.combos.size() != ped2.combos.size()) {
+            return false;
+        }
+        if (this.adjProds.size() != ped2.adjProds.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.prodsBase.size(); i++) {
+            if (!(this.prodsBase.get(i).equals(ped2.prodsBase.get(i)))) {
+                return false;
+            }
+        }
+        for (int i = 0; i < this.combos.size(); i++) {
+            if (!(this.combos.get(i).equals(ped2.combos.get(i)))) {
+                return false;
+            }
+        }
+        for (int i = 0; i < this.adjProds.size(); i++) {
+            if (!(this.adjProds.get(i).equals(ped2.adjProds.get(i)))) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

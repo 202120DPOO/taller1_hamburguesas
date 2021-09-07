@@ -46,4 +46,12 @@ public abstract class ProductoMenu implements Producto {
         return this.calorias;
     }
 
+    public boolean equals(ProductoMenu prod2) {
+        if (!(this.getNombre().equals(prod2.getNombre()))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

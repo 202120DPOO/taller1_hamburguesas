@@ -1,10 +1,11 @@
-FACTURA DE VENTA. PEDIDO #2
-Nombre cliente: 2
-Dirección: 2
+FACTURA DE VENTA. PEDIDO #3
+Nombre cliente: 23
+Dirección: 23
 Nombre                        Subtotal  IVA       Total     Calorias  
 wrap de lomo                  24500     4655      29155     500       
 	 MODIFICACIONES:
 		+tocineta express
+		-lechuga
 
  ==== CALORIAS TOTALES 500 ==== 
 
